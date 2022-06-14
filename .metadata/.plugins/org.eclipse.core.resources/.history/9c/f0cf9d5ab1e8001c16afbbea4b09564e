@@ -1,0 +1,88 @@
+package com.ordermanagement;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import com.ordermanagement.model.Address;
+import com.ordermanagement.model.Order;
+import com.ordermanagement.model.OrderItem;
+import com.ordermanagement.model.OrderLine;
+import com.ordermanagement.model.OrderLineStatus;
+import com.ordermanagement.model.Status;
+import com.ordermanagement.service.OrderRepository;
+
+@ExtendWith(MockitoExtension.class)
+@DataJpaTest
+public class OrderServiceTest {
+
+	@Autowired
+	OrderRepository orderRepository;
+
+	@BeforeEach
+	void createOrder() {
+		Order order = new Order(1,getDate(), 5000.0f, Status.OPEN, getListOfOrderLines());
+		orderRepository.save(order);
+	}
+	@Test
+	public void findById() {
+		Optional<Order> order = orderRepository.findById(1);
+		assertThat(order.isPresent());
+	}
+
+	private List<OrderLine> getListOfOrderLines() {
+		List<OrderLine> listOfOrderLines = new ArrayList<>();
+		OrderLine orderLine = new OrderLine();
+		orderLine.setEta(getDate());
+		orderLine.setAddresses(getListOfAddress());
+		orderLine.setListOfItems(getListOfItems());
+		orderLine.setStatusLine(OrderLineStatus.OPEN);
+		listOfOrderLines.add(orderLine);
+		return listOfOrderLines;
+	}
+
+	private List<OrderItem> getListOfItems() {
+		List<OrderItem> listOfItems = new ArrayList<>();
+		OrderItem item = new OrderItem();
+		item.setItemName("item1");
+		item.setPrice(5000.0f);
+		item.setQuantity(1);
+		listOfItems.add(item);
+		return listOfItems;
+
+	}
+
+	private List<Address> getListOfAddress() {
+		List<Address> listOfAddress = new ArrayList<>();
+		Address address = new Address();
+		address.setState("ap");
+		address.setCountry("India");
+		address.setZipCode(782137);
+		listOfAddress.add(address);
+		return listOfAddress;
+	}
+
+	private Date getDate() {
+		Date date = null;
+		String sDate1 = "2022/06/10";
+		try {
+			date = new SimpleDateFormat("yyyy/MM/dd").parse(sDate1);
+		} catch (ParseException e) {
+			// LOGGER
+		}
+		return date;
+	}
+}

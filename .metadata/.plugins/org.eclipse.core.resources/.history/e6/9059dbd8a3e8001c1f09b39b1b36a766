@@ -1,0 +1,42 @@
+package com.ordermanagement.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.ordermanagement.model.Order;
+import com.ordermanagement.reponse.MessageResponse;
+import com.ordermanagement.reponse.OrderListResult;
+import com.ordermanagement.reponse.ResultResponse;
+
+@Service
+public class OrderService {
+
+	@Autowired
+	OrderRepository orderRepository;
+
+	public Optional<Order> getOrderById(int id) {
+		return orderRepository.findById(id);
+	}
+
+	public OrderListResult getOrderByPincode(String pincode) {
+		List<Order> listOfOrders = orderRepository.findByPincode(pincode);
+		OrderListResult listResult = new OrderListResult();
+		if (!listOfOrders.isEmpty()) {
+			listResult.setResponseCode(200);
+			listResult.setMessage(MessageResponse.RETRIVAL_SUCCUSS);
+			listResult.setListOfOrders(listOfOrders);
+		} else {
+			listResult.setResponseCode(404);
+			listResult.setMessage(MessageResponse.NOT_FOUND);
+		}
+		return listResult;
+	}
+
+	public ResultResponse saveOrder(Order order) {
+		orderRepository.save(order);
+		return new ResultResponse(200, MessageResponse.SAVE_SUCCESFULL);
+	}
+}

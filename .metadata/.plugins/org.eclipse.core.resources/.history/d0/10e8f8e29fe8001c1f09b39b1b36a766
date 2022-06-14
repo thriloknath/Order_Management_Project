@@ -1,0 +1,17 @@
+package com.ordermanagement.reponse;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@Data
+@NoArgsConstructor
+public class ResultResponse {
+	private int responseCode;
+	private String message;
+	public ResultResponse(int responseCode, String message) {
+		super();
+		this.responseCode = responseCode;
+		this.message = message;
+	}
+	
+}

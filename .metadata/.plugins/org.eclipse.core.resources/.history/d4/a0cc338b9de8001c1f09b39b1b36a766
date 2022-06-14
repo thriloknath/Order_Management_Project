@@ -1,0 +1,23 @@
+package com.ordermanagement.model;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Min;
+
+import lombok.Data;
+
+@Entity
+@Table(name = "address")
+@Data
+public class Address {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
+	@Min(value=6,message = "6-digit pin is reuired")
+	private int zipCode;
+	private String state;
+	private String country;
+}

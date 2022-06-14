@@ -1,0 +1,13 @@
+package com.ordermanagement.reponse;
+
+import java.util.List;
+
+import com.ordermanagement.model.Order;
+
+import lombok.Data;
+@Data
+public class OrderListResult {
+
+	private List<Order> listOfOrders;
+	
+}

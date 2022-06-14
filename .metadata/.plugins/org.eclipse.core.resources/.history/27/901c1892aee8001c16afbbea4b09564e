@@ -1,0 +1,78 @@
+package com.ordermanagement;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.cache.spi.support.AbstractReadWriteAccess.Item;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import com.ordermanagement.model.Address;
+import com.ordermanagement.model.Order;
+import com.ordermanagement.model.OrderLine;
+import com.ordermanagement.model.OrderLineStatus;
+import com.ordermanagement.service.OrderRepository;
+
+@ExtendWith(MockitoExtension.class)
+@DataJpaTest
+public class OrderServiceTest {
+
+	@Autowired
+	OrderRepository orderRepository;
+	@Test
+	void saveOrder() {
+		Order order = new Order(getDate(), 20, "DELIVERED", null)
+	}
+	
+	private Order createOrder() {
+		Order order = new Order(getDate(), 0, null, null)
+	}
+	private Date getDate() {
+		Date date = null;
+		String sDate1 = "2022/06/10";
+		try {
+			date = new SimpleDateFormat("yyyy/MM/dd").parse(sDate1);
+		} catch (ParseException e) {
+			// LOGGER
+		}
+		return date;
+	}
+	
+	private List<OrderLine> createListOfOrderLines(){
+		List<OrderLine> listOfOrderLines = new ArrayList<>();
+		OrderLine orderLine = new OrderLine();
+		orderLine.setEta(getDate());
+		orderLine.setListOfAddresses(createListOfAddress());
+		orderLine.setListOfItems(createListOfItems());
+		orderLine.setOrderLineStatus(OrderLineStatus.OPEN);
+		listOfOrderLine.add(orderLine);
+		return listOfOrderLine;
+	}
+	
+	private List<Item> createListOfItems() {
+		List<Item> listOfItems = new ArrayList<>();
+		Item item = new Item();
+		item.setItemName("Laptop");
+		item.setPrice(40000.0f);
+		item.setQuantity(1);
+		listOfItems.add(item);
+		return listOfItems;
+
+	}
+
+	private List<Address> createListOfAddress() {
+		List<Address> listOfAddress = new ArrayList<>();
+		Address address = new Address();
+		address.setState("ap");
+		address.setCountry("India");
+		address.setZipCode(782137);
+		listOfAddress.add(address);
+		return listOfAddress;
+	}
+}

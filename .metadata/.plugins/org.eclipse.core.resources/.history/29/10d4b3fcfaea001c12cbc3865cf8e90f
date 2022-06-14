@@ -1,0 +1,120 @@
+package com.ordermanagement;
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.naming.spi.DirStateFactory.Result;
+
+import org.assertj.core.internal.ErrorMessages;
+import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.ordermanagement.controller.OrderController;
+import com.ordermanagement.model.Address;
+import com.ordermanagement.model.Order;
+import com.ordermanagement.model.OrderLine;
+import com.ordermanagement.model.OrderLineStatus;
+import com.ordermanagement.reponse.MessageResponse;
+import com.ordermanagement.reponse.OrderListResult;
+import com.ordermanagement.reponse.OrderResult;
+import com.ordermanagement.reponse.ResultResponse;
+import com.ordermanagement.service.OrderService;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class OrderServiceTest {
+
+	@Mock
+	OrderService orderService;
+
+	@Mock
+	OrderController orderController;
+
+	@Mock
+	ResultResponse result;
+
+	@Mock
+	OrderResult orderResult;
+
+	@Mock
+	OrderListResult orderCollectionResult;
+
+//	@Test
+//	public void createOrderTestforNullCheck() {
+//		Order order = createOrder();
+//		Result result = orderController.create(order);
+//		assertNull(result);
+//	}
+
+	@Test
+	public void createOrderTestForNotNullCheck() {
+		Order order = createOrder();
+		OrderService orderService =  Mockito.mock(OrderService.class);
+	    Mockito.when(orderService.saveOrder(order)).thenReturn(new Result(200, MessageResponse.SAVE_SUCCESFULL)); 
+		Mockito.when(orderService.saveOrder(order));
+		Result result = orderController.create(order);
+		assertNotNull(result);
+	}
+
+	private Order createOrder() {
+		Order order = new Order();
+		order.setListOfOrderLines(createListOfOrderLines());
+		order.setOrderDate(getDate());
+		order.setOrderId("o1");
+		order.setOrderStatus(OrderStatus.OPEN);
+		order.setTotalAmount(100000.0f);
+		return order;
+	}
+
+	private List<OrderLine> createListOfOrderLines() {
+		List<OrderLine> listOfOrderLine = new ArrayList<>();
+		OrderLine orderLine = new OrderLine();
+		orderLine.setEta(getDate());
+		orderLine.setListOfAddresses(createListOfAddress());
+		orderLine.setListOfItems(createListOfItems());
+		orderLine.setOrderLineStatus(OrderLineStatus.OPEN);
+		listOfOrderLine.add(orderLine);
+		return listOfOrderLine;
+	}
+
+	private List<Item> createListOfItems() {
+		List<Item> listOfItems = new ArrayList<>();
+		Item item = new Item();
+		item.setItemName("Laptop");
+		item.setPrice(40000.0f);
+		item.setQuantity(1);
+		listOfItems.add(item);
+		return listOfItems;
+
+	}
+
+	private List<Address> createListOfAddress() {
+		List<Address> listOfAddress = new ArrayList<>();
+		Address address = new Address();
+		address.setCity("Guwahati");
+		address.setCountry("India");
+		address.setPinCode(782137);
+		listOfAddress.add(address);
+		return listOfAddress;
+	}
+
+	private Date getDate() {
+		Date date = null;
+		String sDate1 = "2022/06/09";
+		try {
+			date = new SimpleDateFormat("yyyy/MM/dd").parse(sDate1);
+		} catch (ParseException e) {
+			// LOGGER
+		}
+		return date;
+	}

@@ -1,0 +1,24 @@
+package com.ordermanagement;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.ordermanagement.service.OrderRepository;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class OrderServiceTest {
+
+	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
+	private OrderRepository orderRepository;
+
+	@Test
+	public void testSaveOrder() {
+	}
+}

@@ -1,0 +1,30 @@
+package com.ordermanagement;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import com.ordermanagement.model.Order;
+import com.ordermanagement.model.OrderLine;
+import com.ordermanagement.service.OrderRepository;
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+public class OrderServiceTest {
+
+	@Autowired
+	private TestEntityManager entityManager;
+	
+	@Autowired
+	private OrderRepository orderRepository;
+	@Test
+	public void testSaveOrder() {
+		List<OrderLine> orderLines = new OrderLine()
+		entityManager.persist(new Order("2020-20-10", 20, "OPEN", OrderLine orderline));
+	}
+}

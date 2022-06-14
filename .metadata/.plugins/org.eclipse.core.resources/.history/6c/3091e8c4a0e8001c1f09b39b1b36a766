@@ -1,0 +1,16 @@
+package com.ordermanagement.reponse;
+
+import java.util.List;
+
+import com.ordermanagement.model.Order;
+
+import lombok.Data;
+public class OrderListResult extends ResultResponse{
+
+	public OrderListResult(int responseCode, String message) {
+		super(responseCode, message);
+	}
+
+	private List<Order> listOfOrders;
+	
+}

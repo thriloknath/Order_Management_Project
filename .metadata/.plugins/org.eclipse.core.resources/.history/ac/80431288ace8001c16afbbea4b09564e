@@ -1,0 +1,13 @@
+package com.ordermanagement.service;
+
+import java.util.List;
+
+import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.ordermanagement.model.Order;
+
+public interface OrderRepository extends CrudRepository<Order, Integer>{
+	@Query("{'listOfOrderLines.listOfAddresses.pinCode':?0}")
+	List<Order> findByPincode(String pincode);
+}

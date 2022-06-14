@@ -1,0 +1,10 @@
+package com.ordermanagement.reponse;
+
+import lombok.Data;
+import lombok.ToString;
+@ToString
+@Data
+public class ResultResponse {
+	private int errorCode;
+	private String errorMessage;
+}

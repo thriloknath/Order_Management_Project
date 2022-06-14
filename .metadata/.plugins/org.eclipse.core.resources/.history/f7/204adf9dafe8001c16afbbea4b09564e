@@ -1,0 +1,74 @@
+package com.ordermanagement.model;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+
+import org.springframework.data.annotation.Id;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+@Entity
+@Table(name = "orders")
+public class Order {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int orderId;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+	@Temporal(TemporalType.DATE)
+	private Date orderDate;
+	@Min(value = 0, message = "price should not be less than 0")
+	private float totalAmount;
+	@Enumerated(EnumType.STRING)
+	private Status status;
+	private List<OrderLine> listOfOrderLines;
+	public int getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(int orderId) {
+		this.orderId = orderId;
+	}
+	public Date getOrderDate() {
+		return orderDate;
+	}
+	public void setOrderDate(Date orderDate) {
+		this.orderDate = orderDate;
+	}
+	public float getTotalAmount() {
+		return totalAmount;
+	}
+	public void setTotalAmount(float totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+	public Status getStatus() {
+		return status;
+	}
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	public List<OrderLine> getListOfOrderLines() {
+		return listOfOrderLines;
+	}
+	public void setListOfOrderLines(List<OrderLine> listOfOrderLines) {
+		this.listOfOrderLines = listOfOrderLines;
+	}
+	public Order(Date orderDate, @Min(value = 0, message = "price should not be less than 0") float totalAmount,
+			Status status, List<OrderLine> listOfOrderLines) {
+		super();
+		this.orderDate = orderDate;
+		this.totalAmount = totalAmount;
+		this.status = status;
+		this.listOfOrderLines = listOfOrderLines;
+	}
+	
+	
+}

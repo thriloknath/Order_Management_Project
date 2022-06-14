@@ -1,0 +1,5 @@
+package com.ordermanagement.reponse;
+
+public class ResultResponse {
+
+}

@@ -1,0 +1,48 @@
+package com.ordermanagement.model;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+@Document(collation = "orderItem")
+public class OrderItem {
+	private int id;
+	@NotBlank
+	private String itemName;
+	@Min(value = 0, message = "price should not be less than 0")
+	private float price;
+	private int quantity;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getItemName() {
+		return itemName;
+	}
+
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
+	}
+
+	public float getPrice() {
+		return price;
+	}
+
+	public void setPrice(float price) {
+		this.price = price;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+}
